@@ -1,0 +1,61 @@
+# Node.js dependencies
+node_modules
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Build outputs
+dist
+build
+*.tsbuildinfo
+
+# Environment files (copy them explicitly in Dockerfile)
+.env.local
+.env.development
+.env.test
+
+# Version control
+.git
+.gitignore
+.github
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# IDE and editor files
+.vscode
+.idea
+*.swp
+*.swo
+.DS_Store
+
+# Test files
+coverage
+html
+.nyc_output
+__tests__
+__mocks__
+*.test.ts
+*.spec.ts
+
+# Logs
+logs
+*.log
+
+# Temporary files
+tmp
+temp
+.tmp
+.temp
+
+# Miscellaneous
+README.md
+LICENSE
+*.md
+.husky
+.eslintrc*
+.prettierrc*
+jest.config.*
+vitest.config.*

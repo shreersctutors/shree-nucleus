@@ -1,0 +1,177 @@
+openapi: 3.1.0
+info:
+  title: Shree Nucleus API
+  description: API documentation for the Shree Nucleus server
+  version: 1.0.0
+  contact:
+    name: Shree Nucleus Team
+servers:
+  - url: http://localhost:3000
+    description: Local development server
+
+# Global security requirement - applies to all operations unless overridden
+security:
+  - BearerAuth: []
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token provided by Firebase Authentication
+
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 400
+        message:
+          type: string
+          example: 'Bad request'
+        error:
+          type: object
+          description: 'Error details object'
+          example: { 'reason': 'Invalid input' }
+
+    SuccessResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 200
+        message:
+          type: string
+          example: 'Success'
+        data:
+          type: object
+          description: Response data object
+
+  parameters:
+    IdParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Resource identifier
+
+    PaginationLimit:
+      name: limit
+      in: query
+      schema:
+        type: integer
+        default: 10
+        minimum: 1
+        maximum: 100
+      description: Number of items to return
+
+    PaginationOffset:
+      name: offset
+      in: query
+      schema:
+        type: integer
+        default: 0
+        minimum: 0
+      description: Number of items to skip
+
+  responses:
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    ServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+tags:
+  - name: Health
+    description: Health check endpoints
+
+paths:
+  /:
+    get:
+      summary: API Status
+      description: Check if the API is running and get basic status information
+      operationId: apiStatus
+      tags:
+        - Health
+      security: [] # No auth required for status check
+      responses:
+        '200':
+          description: API is running
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: 'Shree Nucleus API is running!'
+
+  /health:
+    get:
+      summary: Health check
+      description: Check if the API is running with detailed health information
+      operationId: healthCheck
+      tags:
+        - Health
+      security: [] # Override global security - no auth required for health check
+      responses:
+        '200':
+          description: API is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: 'OK'
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: '2024-01-15T10:30:00.000Z'
+                  uptime:
+                    type: number
+                    format: float
+                    description: Server uptime in seconds
+                    example: 3600.5
+
+  # Module-specific paths will be defined in their respective YAML files
+  # and automatically combined with this main file.

@@ -1,0 +1,129 @@
+openapi: 3.1.0
+info:
+  title: Auth API
+  version: 1.0.0
+  description: |
+    Minimal Auth API for user creation with admin-only access.
+
+paths:
+  /auth/user:
+    post:
+      summary: Create a new user
+      description: Create a new user. Only admins can access this endpoint.
+      operationId: createUser
+      tags:
+        - Auth
+      security:
+        - BearerAuth: []
+      x-admin-required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+            examples:
+              newUser:
+                summary: Create new user
+                value:
+                  user_email: 'admin@example.com'
+                  user_role: 1
+                  user_country: 'USA'
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateUserResponse'
+        '400':
+          description: Bad request - missing required fields
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden - Admin access required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Conflict - Email already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    CreateUserRequest:
+      type: object
+      required:
+        - user_email
+        - user_role
+        - user_country
+      properties:
+        user_email:
+          type: string
+          format: email
+          description: Email address of the user
+          example: 'admin@example.com'
+        user_role:
+          type: integer
+          description: Numeric role (e.g., 1 for admin)
+          example: 1
+        user_country:
+          type: string
+          enum: [CANADA, INDIA, UK, USA]
+          description: Country code
+          example: 'USA'
+    CreateUserResponse:
+      type: object
+      properties:
+        user_id:
+          type: integer
+          description: Unique identifier for the user
+          example: 1
+        user_email:
+          type: string
+          format: email
+          description: Email address of the user
+          example: 'admin@example.com'
+        user_role:
+          type: integer
+          description: Numeric role
+          example: 1
+        user_country:
+          type: string
+          enum: [CANADA, INDIA, UK, USA]
+          description: Country code
+          example: 'USA'
+        firebase_uid:
+          type: string
+          description: Firebase UID
+          example: 'firebase_uid_123'
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 400
+        message:
+          type: string
+          example: 'Error message'
+        error:
+          type: object
+          description: Error details

@@ -1,0 +1,85 @@
+{
+  "name": "shree-nucleus",
+  "version": "1.0.0",
+  "description": "Open Source Shree Nucleus",
+  "type": "module",
+  "main": "./dist/server.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "tsc --noEmit && tsx watch src/server.ts",
+    "dev:fast": "tsx watch src/server.ts",
+    "check:types": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "prepare": "husky"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shreersctutors/shree-nucleus.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shreersctutors/shree-nucleus/issues"
+  },
+  "homepage": "https://github.com/shreersctutors/shree-nucleus#readme",
+  "lint-staged": {
+    "*.{ts,js}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.830.0",
+    "@aws-sdk/util-uri-escape": "^3.310.0",
+    "@prisma/client": "^6.11.0",
+    "axios": "^1.10.0",
+    "cors": "^2.8.5",
+    "date-fns": "^4.1.0",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "firebase-admin": "^13.4.0",
+    "helmet": "^8.1.0",
+    "js-yaml": "^4.1.0",
+    "mongodb": "^6.8.0",
+    "morgan": "^1.10.0",
+    "multer": "^2.0.1",
+    "mysql2": "^3.14.1",
+    "swagger-ui-express": "^5.0.1",
+    "zod": "^3.25.67"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.29.0",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/js-yaml": "^4.0.9",
+    "@types/morgan": "^1.9.10",
+    "@types/multer": "^1.4.13",
+    "@types/node": "^24.0.3",
+    "@types/swagger-ui-express": "^4.1.8",
+    "@vitest/coverage-v8": "^3.2.4",
+    "@vitest/ui": "^3.2.4",
+    "eslint": "^9.29.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-unused-imports": "^4.1.4",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.2",
+    "prettier": "^3.5.3",
+    "prisma": "^6.11.0",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.34.1",
+    "vitest": "^3.2.4"
+  },
+  "engines": {
+    "node": ">=22.16.0 <24"
+  },
+  "prisma": {
+    "schema": "./src/db/prisma/schema.prisma"
+  }
+}

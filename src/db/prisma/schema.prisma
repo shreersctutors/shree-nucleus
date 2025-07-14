@@ -1,0 +1,25 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../lib/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model authentication {
+  user_id                   Int                           @id @default(autoincrement())
+  user_email                String                        @db.Text
+  user_role                 Int                           @db.TinyInt
+  user_country              authentication_user_country
+}
+
+
+
+enum authentication_user_country {
+  CANADA
+  INDIA
+  UK
+  USA
+}
