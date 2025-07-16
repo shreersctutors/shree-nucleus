@@ -1,6 +1,7 @@
 // Centralized MongoDB configuration object, built from environment variables.
 // This is imported by db/mongodb.ts to create the MongoDB client.
 
+// env
 import { env } from './env.js'
 
 export const mongodbConfig = {

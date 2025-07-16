@@ -4,13 +4,13 @@ import {
   getDemoUserFromFirestore,
   getTutorApplicantFromFirestore
 } from './auth.service.js'
-import { auth, firestoreDb } from '@/config/firebase.js'
+import { auth, firestore } from '@/db/firebase.js'
 
 // Mock Firebase auth and Firestore
-vi.mock('@/config/firebase.js')
+vi.mock('@/db/firebase.js')
 
 const mockAuth = vi.mocked(auth)
-const mockFirestoreDb = vi.mocked(firestoreDb)
+const mockFirestore = vi.mocked(firestore)
 
 describe('Auth Service', () => {
   beforeEach(() => {
@@ -211,11 +211,11 @@ describe('Auth Service', () => {
         })
       }
 
-      mockFirestoreDb.collection.mockReturnValue(mockCollection as any)
+      mockFirestore.collection.mockReturnValue(mockCollection as any)
 
       const result = await getDemoUserFromFirestore(email)
 
-      expect(mockFirestoreDb.collection).toHaveBeenCalledWith('inquiryDb')
+      expect(mockFirestore.collection).toHaveBeenCalledWith('inquiryDb')
       expect(mockCollection.where).toHaveBeenCalledWith('email', '==', email.toLowerCase())
       expect(result).toEqual({
         userId: 'demo123',
@@ -254,7 +254,7 @@ describe('Auth Service', () => {
         })
       }
 
-      mockFirestoreDb.collection.mockReturnValue(mockCollection as any)
+      mockFirestore.collection.mockReturnValue(mockCollection as any)
 
       const result = await getDemoUserFromFirestore(email)
 
@@ -285,11 +285,11 @@ describe('Auth Service', () => {
         })
       }
 
-      mockFirestoreDb.collection.mockReturnValue(mockCollection as any)
+      mockFirestore.collection.mockReturnValue(mockCollection as any)
 
       const result = await getDemoUserFromFirestore(email)
 
-      expect(mockFirestoreDb.collection).toHaveBeenCalledWith('inquiryDb')
+      expect(mockFirestore.collection).toHaveBeenCalledWith('inquiryDb')
       expect(mockCollection.where).toHaveBeenCalledWith('email', '==', email.toLowerCase())
       expect(result).toBeNull()
     })
@@ -304,7 +304,7 @@ describe('Auth Service', () => {
         })
       }
 
-      mockFirestoreDb.collection.mockReturnValue(mockCollection as any)
+      mockFirestore.collection.mockReturnValue(mockCollection as any)
 
       const result = await getDemoUserFromFirestore(email)
 
@@ -325,7 +325,7 @@ describe('Auth Service', () => {
         })
       }
 
-      mockFirestoreDb.collection.mockReturnValue(mockCollection as any)
+      mockFirestore.collection.mockReturnValue(mockCollection as any)
 
       const result = await getDemoUserFromFirestore(email)
 
@@ -360,7 +360,7 @@ describe('Auth Service', () => {
         })
       }
 
-      mockFirestoreDb.collection.mockReturnValue(mockCollection as any)
+      mockFirestore.collection.mockReturnValue(mockCollection as any)
 
       const result = await getDemoUserFromFirestore(email)
 
@@ -405,11 +405,11 @@ describe('Auth Service', () => {
         })
       }
 
-      mockFirestoreDb.collection.mockReturnValue(mockCollection as any)
+      mockFirestore.collection.mockReturnValue(mockCollection as any)
 
       const result = await getTutorApplicantFromFirestore(email)
 
-      expect(mockFirestoreDb.collection).toHaveBeenCalledWith('utility')
+      expect(mockFirestore.collection).toHaveBeenCalledWith('utility')
       expect(mockCollection.doc).toHaveBeenCalledWith('tutorApplicantDb')
       expect(result).toEqual({
         userId: 'applicant@example.com',
@@ -446,7 +446,7 @@ describe('Auth Service', () => {
         })
       }
 
-      mockFirestoreDb.collection.mockReturnValue(mockCollection as any)
+      mockFirestore.collection.mockReturnValue(mockCollection as any)
 
       const result = await getTutorApplicantFromFirestore(email)
 
@@ -480,11 +480,11 @@ describe('Auth Service', () => {
         })
       }
 
-      mockFirestoreDb.collection.mockReturnValue(mockCollection as any)
+      mockFirestore.collection.mockReturnValue(mockCollection as any)
 
       const result = await getTutorApplicantFromFirestore(email)
 
-      expect(mockFirestoreDb.collection).toHaveBeenCalledWith('utility')
+      expect(mockFirestore.collection).toHaveBeenCalledWith('utility')
       expect(mockCollection.doc).toHaveBeenCalledWith('tutorApplicantDb')
       expect(result).toBeNull()
     })
@@ -503,7 +503,7 @@ describe('Auth Service', () => {
         })
       }
 
-      mockFirestoreDb.collection.mockReturnValue(mockCollection as any)
+      mockFirestore.collection.mockReturnValue(mockCollection as any)
 
       const result = await getTutorApplicantFromFirestore(email)
 
@@ -528,7 +528,7 @@ describe('Auth Service', () => {
         })
       }
 
-      mockFirestoreDb.collection.mockReturnValue(mockCollection as any)
+      mockFirestore.collection.mockReturnValue(mockCollection as any)
 
       const result = await getTutorApplicantFromFirestore(email)
 
@@ -545,7 +545,7 @@ describe('Auth Service', () => {
         })
       }
 
-      mockFirestoreDb.collection.mockReturnValue(mockCollection as any)
+      mockFirestore.collection.mockReturnValue(mockCollection as any)
 
       const result = await getTutorApplicantFromFirestore(email)
 
@@ -574,7 +574,7 @@ describe('Auth Service', () => {
         })
       }
 
-      mockFirestoreDb.collection.mockReturnValue(mockCollection as any)
+      mockFirestore.collection.mockReturnValue(mockCollection as any)
 
       const result = await getTutorApplicantFromFirestore(email)
 
@@ -616,7 +616,7 @@ describe('Auth Service', () => {
         })
       }
 
-      mockFirestoreDb.collection.mockReturnValue(mockCollection as any)
+      mockFirestore.collection.mockReturnValue(mockCollection as any)
 
       const result = await getTutorApplicantFromFirestore(email)
 

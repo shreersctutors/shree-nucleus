@@ -1,8 +1,9 @@
+// Centralized Firebase configuration object, built from environment variables.
+// This is imported by db/firebase.ts to create the Firebase client.
+
+// Firebase
 import { initializeApp, cert, ServiceAccount } from 'firebase-admin/app'
-import { getFirestore } from 'firebase-admin/firestore'
-import { getStorage } from 'firebase-admin/storage'
-import { getAuth } from 'firebase-admin/auth'
-// import env from '@/config/env.js'
+// env
 import { env } from '@/config/env.js'
 
 // Firebase service account configuration
@@ -19,19 +20,6 @@ const firebaseApp = initializeApp({
   storageBucket: env.FIREBASE_STORAGE_BUCKET
 })
 
-// Initialize Firestore
-const firestoreDb = getFirestore(firebaseApp)
+export { firebaseApp }
 
-// Initialize Firebase Auth
-const auth = getAuth(firebaseApp)
-
-// Initialize Firebase Storage with bucket
-const storage = getStorage(firebaseApp).bucket(env.FIREBASE_STORAGE_BUCKET)
-
-// Configure Firestore settings
-firestoreDb.settings({
-  ignoreUndefinedProperties: true, // Allows undefined fields to be stripped from objects
-  timestampsInSnapshots: true // Return timestamps as Timestamp objects
-})
-
-export { firestoreDb, storage, auth }
+export const firebaseStorageBucket = env.FIREBASE_STORAGE_BUCKET

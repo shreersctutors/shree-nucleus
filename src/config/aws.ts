@@ -1,6 +1,7 @@
 // Centralized AWS configuration objects, built from environment variables.
 // These are imported in the db like the db/s3.ts where we create the S3 client.
 
+// env
 import { env } from '@/config/env.js'
 
 // S3 configuration options

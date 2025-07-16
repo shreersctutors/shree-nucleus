@@ -4,7 +4,7 @@ import { verifyToken, requireRole } from './verifyToken.js'
 import { createAppError } from '@/middleware/error/errorHandler.js'
 
 // Mock Firebase auth
-vi.mock('@/config/firebase.js', () => ({
+vi.mock('@/db/firebase.js', () => ({
   auth: {
     verifyIdToken: vi.fn()
   }
@@ -21,7 +21,7 @@ vi.mock('@/config/env.js', () => ({
 }))
 
 // Import the mocked modules
-import { auth } from '@/config/firebase.js'
+import { auth } from '@/db/firebase.js'
 
 describe('Security Middleware', () => {
   let mockReq: Partial<Request>

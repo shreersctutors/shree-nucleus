@@ -1,5 +1,5 @@
 // Firebase
-import { auth, firestoreDb } from '@/config/firebase.js'
+import { auth, firestore } from '@/db/firebase.js'
 
 /**
  * Create a new user in Firebase Auth with email and password
@@ -40,7 +40,7 @@ export const getDemoUserFromFirestore = async (
   userCountry?: string
 } | null> => {
   try {
-    const inquiryDbRef = firestoreDb.collection('inquiryDb')
+    const inquiryDbRef = firestore.collection('inquiryDb')
     const inquirySnapshot = await inquiryDbRef.where('email', '==', email.toLowerCase()).get()
 
     if (!inquirySnapshot.empty) {
@@ -81,7 +81,7 @@ export const getTutorApplicantFromFirestore = async (
   userCountry?: string
 } | null> => {
   try {
-    const utilityDoc = await firestoreDb.collection('utility').doc('tutorApplicantDb').get()
+    const utilityDoc = await firestore.collection('utility').doc('tutorApplicantDb').get()
 
     if (utilityDoc.exists && utilityDoc.data()?.applicants) {
       const applicants = utilityDoc.data()!.applicants

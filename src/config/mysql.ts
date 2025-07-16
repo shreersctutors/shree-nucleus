@@ -1,6 +1,7 @@
 // Centralized MySQL configuration object, built from environment variables.
 // This is imported by db/mysql.ts to create the connection pool.
 
+// env
 import { env } from './env.js'
 
 export const mysqlConfig = {

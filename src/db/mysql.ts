@@ -1,4 +1,6 @@
+// MySQL
 import mysql from 'mysql2/promise'
+// config
 import { mysqlConfig } from '@/config/mysql.js'
 
 // Create a MySQL connection pool with sensible defaults for templates.

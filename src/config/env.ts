@@ -18,7 +18,7 @@ console.log(`Environment loaded: ${process.env.NODE_ENV || 'development'}`)
 interface EnvConfig {
   // Server configuration
   NODE_ENV: 'development' | 'production' | 'test'
-  PORT: number
+  PORT?: number
 
   // AWS configuration
   AWS_REGION: string
@@ -29,10 +29,10 @@ interface EnvConfig {
 
   // MySQL configuration
   PROD_MYSQL_HOST: string
+  PROD_MYSQL_PORT?: number
   PROD_MYSQL_USER: string
   PROD_MYSQL_PASSWORD: string
   PROD_MYSQL_DB_NAME: string
-  PROD_MYSQL_PORT?: number
   // Prisma configuration
   DATABASE_URL: string
 
@@ -47,24 +47,18 @@ interface EnvConfig {
   FIREBASE_STORAGE_BUCKET: string
 }
 
-// Default values for development
-const defaultConfig = {
-  NODE_ENV: 'development' as const,
-  PORT: 3000,
-  AWS_REGION: 'us-east-1',
-  AWS_OUTPUT: 'json'
+// Helper function to get environment variables with type conversion and options
+interface EnvVarOptions<T> {
+  defaultValue?: T
+  optional?: boolean
 }
 
-// Helper function to get environment variables with type conversion
-const getEnvVar = <T>(key: string, defaultValue?: T): T => {
+const getEnvVar = <T>(key: string, options?: EnvVarOptions<T>): T => {
   const value = process.env[key]
-  if (!value) {
-    if (defaultValue) return defaultValue
-
-    // if value is not set, throw error
-    throw new Error(`Environment variable ${key} is not set`)
+  if (value === undefined || value === '') {
+    if (options?.defaultValue !== undefined) return options.defaultValue
+    if (!options?.optional) throw new Error(`Environment variable ${key} is not set`)
   }
-
   return value as unknown as T
 }
 
@@ -81,24 +75,25 @@ const getEnvVarAsEnum = <T extends string>(key: string, defaultValue?: T): T => 
 }
 
 // Create and export the environment configuration
+// Usage examples:
+// Required: getEnvVar<string>('AWS_REGION')
+// Optional, no default: getEnvVar<string | undefined>('AWS_ACCESS_KEY_ID', { optional: true })
+// Optional, with default: getEnvVar<number>('PROD_MYSQL_PORT', { defaultValue: 3306 })
 export const env: EnvConfig = {
   // Server configuration
-  NODE_ENV: getEnvVarAsEnum<'development' | 'production' | 'test'>(
-    'NODE_ENV',
-    defaultConfig.NODE_ENV
-  ),
-  PORT: getEnvVar<number>('PORT', defaultConfig.PORT),
+  NODE_ENV: getEnvVarAsEnum<'development' | 'production' | 'test'>('NODE_ENV', 'development'),
+  PORT: getEnvVar<number | undefined>('PORT', { optional: true }),
 
   // AWS configuration
   AWS_REGION: getEnvVar<string>('AWS_REGION'),
   AWS_OUTPUT: getEnvVar<string>('AWS_OUTPUT'),
-  AWS_ACCESS_KEY_ID: getEnvVar<string>('AWS_ACCESS_KEY_ID'),
-  AWS_SECRET_ACCESS_KEY: getEnvVar<string>('AWS_SECRET_ACCESS_KEY'),
+  AWS_ACCESS_KEY_ID: getEnvVar<string | undefined>('AWS_ACCESS_KEY_ID', { optional: true }),
+  AWS_SECRET_ACCESS_KEY: getEnvVar<string | undefined>('AWS_SECRET_ACCESS_KEY', { optional: true }),
   AWS_S3_BUCKET: getEnvVar<string>('AWS_S3_BUCKET'),
 
   // MySQL configuration
   PROD_MYSQL_HOST: getEnvVar<string>('PROD_MYSQL_HOST'),
-  PROD_MYSQL_PORT: getEnvVar<number>('PROD_MYSQL_PORT'),
+  PROD_MYSQL_PORT: getEnvVar<number | undefined>('PROD_MYSQL_PORT', { optional: true }),
   PROD_MYSQL_USER: getEnvVar<string>('PROD_MYSQL_USER'),
   PROD_MYSQL_PASSWORD: getEnvVar<string>('PROD_MYSQL_PASSWORD'),
   PROD_MYSQL_DB_NAME: getEnvVar<string>('PROD_MYSQL_DB_NAME'),

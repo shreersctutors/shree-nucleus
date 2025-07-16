@@ -6,9 +6,13 @@
  * Protected routes should use this middleware to ensure only authenticated users can access them.
  */
 
+// Express
 import { Request, Response, NextFunction } from 'express'
-import { auth } from '@/config/firebase.js'
+// db
+import { auth } from '@/db/firebase.js'
+// middleware
 import { createAppError } from '@/middleware/error/errorHandler.js'
+// config
 import { env } from '@/config/env.js'
 
 // Import Firebase Auth types
