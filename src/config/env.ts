@@ -32,11 +32,12 @@ interface EnvConfig {
   PROD_MYSQL_USER: string
   PROD_MYSQL_PASSWORD: string
   PROD_MYSQL_DB_NAME: string
+  PROD_MYSQL_PORT?: number
   // Prisma configuration
   DATABASE_URL: string
 
   // MongoDB configuration
-  MONGODB_URL: string
+  MONGODB_URI: string
   MONGODB_DB: string
 
   // Firebase configuration
@@ -97,6 +98,7 @@ export const env: EnvConfig = {
 
   // MySQL configuration
   PROD_MYSQL_HOST: getEnvVar<string>('PROD_MYSQL_HOST'),
+  PROD_MYSQL_PORT: getEnvVar<number>('PROD_MYSQL_PORT'),
   PROD_MYSQL_USER: getEnvVar<string>('PROD_MYSQL_USER'),
   PROD_MYSQL_PASSWORD: getEnvVar<string>('PROD_MYSQL_PASSWORD'),
   PROD_MYSQL_DB_NAME: getEnvVar<string>('PROD_MYSQL_DB_NAME'),
@@ -104,7 +106,7 @@ export const env: EnvConfig = {
   DATABASE_URL: getEnvVar<string>('DATABASE_URL'),
 
   // MongoDB configuration
-  MONGODB_URL: getEnvVar<string>('MONGODB_URL'),
+  MONGODB_URI: getEnvVar<string>('MONGODB_URI'),
   MONGODB_DB: getEnvVar<string>('MONGODB_DB'),
 
   // Firebase configuration

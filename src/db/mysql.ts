@@ -1,23 +1,16 @@
 import mysql from 'mysql2/promise'
-// import preloaded environment variables from env.ts
-import { env } from '@/config/env.js'
+import { mysqlConfig } from '@/config/mysql.js'
 
-// MySQL connection pool configuration
-const poolConfig = {
-  host: env.PROD_MYSQL_HOST,
-  user: env.PROD_MYSQL_USER,
-  password: env.PROD_MYSQL_PASSWORD,
-  database: env.PROD_MYSQL_DB_NAME,
-  waitForConnections: true,
-  connectionLimit: 100,
-  connectTimeout: 60 * 1000, // 1 min = 60000ms (default 10000ms)
-  acquireTimeout: 60 * 1000, // 1 min = 60000ms (default 10000ms)
-  timeout: 60 * 1000, // 1 min = 60000ms (default 40000ms)
-  multipleStatements: true,
-  queueLimit: 0
-}
-
-// Create a connection pool
-const pool = mysql.createPool(poolConfig)
+// Create a MySQL connection pool with sensible defaults for templates.
+// Adjust pool options as needed for your environment.
+const pool = mysql.createPool({
+  ...mysqlConfig,
+  waitForConnections: true, // Queue connection requests if pool is full
+  connectionLimit: 10 // Max simultaneous connections (adjust as needed)
+  // connectTimeout: 10000,      // Optional: ms before connection attempt times out
+  // acquireTimeout: 10000,      // Optional: ms before acquiring a connection times out
+  // multipleStatements: false,  // Optional: allow multiple SQL statements per query
+  // queueLimit: 0,              // Optional: max queued connection requests (0 = unlimited)
+})
 
 export const mysqlPool = pool

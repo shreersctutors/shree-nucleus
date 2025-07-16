@@ -1,18 +1,14 @@
 // External libraries
-import { MongoClient } from 'mongodb'
+import { MongoClient, Db } from 'mongodb'
 
-// Import preloaded environment variables from env.ts
-import { env } from '@/config/env.js'
-
-// MongoDB connection configuration
-const mongoUrl = env.MONGODB_URL
-const dbName = env.MONGODB_DB
+// import mongodb config
+import { mongodbConfig } from '@/config/mongodb.js'
 
 // Create MongoDB client
-const mongoClient = new MongoClient(mongoUrl)
+const mongoClient = new MongoClient(mongodbConfig.uri)
 
-// Connect to MongoDB
-const connectMongo = async (): Promise<MongoClient> => {
+// Connect to MongoDB with error handling
+export const connectMongo = async (): Promise<MongoClient> => {
   try {
     await mongoClient.connect()
     console.log('Connected to MongoDB')
@@ -24,10 +20,7 @@ const connectMongo = async (): Promise<MongoClient> => {
 }
 
 // Get database instance
-const getDb = async () => {
+export const getDb = async (): Promise<Db> => {
   const client = await connectMongo()
-  return client.db(dbName)
+  return client.db(mongodbConfig.dbName)
 }
-
-// Export the database instance for use in modules
-export const mongoDb = await getDb()
