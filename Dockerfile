@@ -44,7 +44,7 @@ COPY --from=builder /app/dist ./dist
 # Copy environment files
 COPY .env* ./
 
-# Expose the port the app runs on
+# Expose the default app port (change as needed to match your PORT env variable)
 EXPOSE 3000
 
 # Start the application
