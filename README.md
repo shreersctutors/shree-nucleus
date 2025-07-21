@@ -164,13 +164,13 @@ If any required variable is missing, the app will not start and you’ll see an 
 
 This project separates configuration and client/connection logic for each service:
 
-| Service  | Config Location          | Client/Connection Location | What goes where?                                                               |
-| -------- | ------------------------ | -------------------------- | ------------------------------------------------------------------------------ |
-| MySQL    | `src/config/mysql.ts`    | `src/db/mysql.ts`          | Config: host, port, user, db, etc. Client: MySQL pool using config             |
-| MongoDB  | `src/config/mongodb.ts`  | `src/db/mongodb.ts`        | Config: URI, db name. Client: MongoClient and `getDb()` using config           |
-| Prisma   | `.env`, `schema.prisma`  | `src/lib/prisma/client.ts` | Config: DATABASE_URL. Client: PrismaClient (generated, imported as needed)     |
-| S3       | `src/config/aws.ts`      | `src/db/s3.ts`             | Config: region, bucket, credentials. Client: S3Client using config             |
-| Firebase | `src/config/firebase.ts` | (as needed)                | Config: project ID, keys, etc. Client: Firebase Admin SDK instance (as needed) |
+| Service  | Config Location               | Client/Connection Location | What goes where?                                                                                 |
+| -------- | ----------------------------- | -------------------------- | ------------------------------------------------------------------------------------------------ |
+| MySQL    | `src/config/mysql.ts`         | `src/db/mysql.ts`          | Config: host, port, user, db, etc. Client: MySQL pool using config                               |
+| MongoDB  | `src/config/mongodb.ts`       | `src/db/mongodb.ts`        | Config: URI, db name. Client: MongoClient and `getDb()` using config                             |
+| Prisma   | `src/db/prisma/schema.prisma` | `src/db/prisma/client.ts`  | Config: DATABASE_URL. Client: PrismaClient (generated in lib/prisma, then imported to db/prisma) |
+| S3       | `src/config/aws.ts`           | `src/db/s3.ts`             | Config: region, bucket, credentials. Client: S3Client using config                               |
+| Firebase | `src/config/firebase.ts`      | `src/db/firebase.ts`       | Config: project ID, keys, etc. Client: Firebase Admin SDK instance                               |
 
 ### ⚠️ Optional Services
 
